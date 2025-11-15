@@ -133,10 +133,10 @@ const APIvengers = () => {
         </header>
 
         {/* Content Area */}
-        <main className="flex-1 overflow-auto bg-white text-black p-6" style={{ letterSpacing: '0.2px' }}>
+        <main className={`flex-1 overflow-auto ${activeSection === 'schema' ? 'bg-gray-800' : 'bg-white text-black'} p-0`} style={{ letterSpacing: '0.2px' }}>
           {/* Dashboard */}
           {activeSection === 'dashboard' && (
-            <div className="space-y-6">
+            <div className="space-y-6 p-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="bg-gray-100 p-6 rounded-lg border border-gray-300">
                   <h3 className="text-lg mb-4" style={{ letterSpacing: '0.5px' }}>Recent Projects</h3>
@@ -210,34 +210,16 @@ const APIvengers = () => {
             </div>
           )}
 
-          {/* Schema Designer - NOW FUNCTIONAL */}
+          {/* Schema Designer - NOW FULL SCREEN */}
           {activeSection === 'schema' && (
-            <div className="h-full flex flex-col">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-xl uppercase tracking-wider">Visual Schema Designer</h3>
-                <div className="flex space-x-2">
-                  <button onClick={handleDummyButton} className="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 transition-colors">
-                    Export Schema
-                  </button>
-                  <button onClick={handleDummyButton} className="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 transition-colors">
-                    Generate Relationships
-                  </button>
-                  <button onClick={handleDummyButton} className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
-                    Save to Database
-                  </button>
-                </div>
-              </div>
-              
-              {/* ACTUAL FUNCTIONAL SCHEMA DESIGNER */}
-              <div className="flex-1 border-2 border-gray-300 rounded-lg bg-gray-800 overflow-hidden">
-                <SchemaDesigner />
-              </div>
+            <div className="w-full h-full">
+              <SchemaDesigner />
             </div>
           )}
 
           {/* API Builder */}
           {activeSection === 'api' && (
-            <div className="space-y-6">
+            <div className="space-y-6 p-6">
               <div className="flex justify-between items-center">
                 <h3 className="text-xl uppercase tracking-wider">API Endpoint Builder</h3>
                 <div className="flex space-x-2">
@@ -304,7 +286,7 @@ const APIvengers = () => {
 
           {/* Placeholder for other sections */}
           {!['dashboard', 'schema', 'api'].includes(activeSection) && (
-            <div className="h-full flex items-center justify-center">
+            <div className="h-full flex items-center justify-center p-6">
               <div className="text-center">
                 <h3 className="text-2xl mb-4 uppercase tracking-wider">
                   {navItems.find(item => item.id === activeSection)?.label} Section
