@@ -175,6 +175,112 @@ export const RelationshipIcon = ({ className = "w-5 h-5" }) => (
   </svg>
 );
 
+// JWTIcon.jsx
+export const JWTIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2"/>
+    <path d="M8 7H16M8 11H16M8 15H12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+    <circle cx="14" cy="15" r="1" fill="currentColor"/>
+  </svg>
+);
+
+// OAuthIcon.jsx
+export const OAuthIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
+    <path d="M12 2C13.5017 2 14.9335 2.51732 16.0748 3.45979C17.2161 4.40226 18 5.71431 18 7.11111C18 8.50791 17.2161 9.81996 16.0748 10.7624C14.9335 11.7049 13.5017 12.2222 12 12.2222C10.4983 12.2222 9.06652 11.7049 7.92522 10.7624C6.78392 9.81996 6 8.50791 6 7.11111C6 5.71431 6.78392 4.40226 7.92522 3.45979C9.06652 2.51732 10.4983 2 12 2Z" stroke="currentColor" strokeWidth="2"/>
+    <path d="M12 22C13.5017 22 14.9335 21.4827 16.0748 20.5402C17.2161 19.5977 18 18.2857 18 16.8889C18 15.4921 17.2161 14.18 16.0748 13.2376C14.9335 12.2951 13.5017 11.7778 12 11.7778C10.4983 11.7778 9.06652 12.2951 7.92522 13.2376C6.78392 14.18 6 15.4921 6 16.8889C6 18.2857 6.78392 19.5977 7.92522 20.5402C9.06652 21.4827 10.4983 22 12 22Z" stroke="currentColor" strokeWidth="2"/>
+  </svg>
+);
+
+// SessionIcon.jsx
+export const SessionIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2"/>
+    <circle cx="9" cy="9" r="1" fill="currentColor"/>
+    <circle cx="9" cy="12" r="1" fill="currentColor"/>
+    <circle cx="9" cy="15" r="1" fill="currentColor"/>
+    <path d="M12 9H18M12 12H18M12 15H15" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+  </svg>
+);
+
+// APIKeyIcon.jsx
+export const APIKeyIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M15 7C16.1046 7 17 7.89543 17 9C17 10.1046 16.1046 11 15 11C13.8954 11 13 10.1046 13 9C13 7.89543 13.8954 7 15 7Z" stroke="currentColor" strokeWidth="2"/>
+    <path d="M11 14C11 13.4477 11.4477 13 12 13H18C18.5523 13 19 13.4477 19 14V19C19 19.5523 18.5523 20 18 20H12C11.4477 20 11 19.5523 11 19V14Z" stroke="currentColor" strokeWidth="2"/>
+    <path d="M7 5H5C3.89543 5 3 5.89543 3 7V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V7C21 5.89543 20.1046 5 19 5H17" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+  </svg>
+);
+
+// GoogleIcon.jsx
+export const GoogleIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.8055 10.0415H21V10H12V14H17.6515C16.827 16.3285 14.6115 18 12 18C8.6865 18 6 15.3135 6 12C6 8.6865 8.6865 6 12 6C13.5295 6 14.921 6.577 15.9805 7.5195L18.809 4.691C17.023 3.0265 14.634 2 12 2C6.4775 2 2 6.4775 2 12C2 17.5225 6.4775 22 12 22C17.5225 22 22 17.5225 22 12C22 11.3295 21.931 10.675 21.8055 10.0415Z" fill="#FFC107"/>
+    <path d="M3.15302 7.3455L6.43852 9.755C7.32752 7.554 9.48052 6 12 6C13.5295 6 14.921 6.577 15.9805 7.5195L18.809 4.691C17.023 3.0265 14.634 2 12 2C8.15902 2 4.82802 4.1685 3.15302 7.3455Z" fill="#FF3D00"/>
+    <path d="M12 22C14.583 22 16.93 21.0115 18.7045 19.404L15.6095 16.785C14.6055 17.5455 13.3575 18 12 18C9.39903 18 7.19053 16.3415 6.35853 14.027L3.09753 16.5395C4.75253 19.778 8.11353 22 12 22Z" fill="#4CAF50"/>
+    <path d="M21.8055 10.0415H21V10H12V14H17.6515C17.2555 15.1185 16.536 16.083 15.608 16.7855L15.6095 16.7845L18.7045 19.4035C18.4855 19.6025 22 17 22 12C22 11.3295 21.931 10.675 21.8055 10.0415Z" fill="#1976D2"/>
+  </svg>
+);
+
+// GitHubIcon.jsx
+export const GitHubIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2C6.477 2 2 6.477 2 12C2 16.418 4.865 20.166 8.839 21.489C9.339 21.579 9.521 21.26 9.521 20.978C9.521 20.72 9.513 20.14 9.508 19.377C6.726 19.999 6.139 18.125 6.139 18.125C5.685 16.97 5.028 16.66 5.028 16.66C4.121 16.051 5.098 16.063 5.098 16.063C6.101 16.13 6.629 17.101 6.629 17.101C7.521 18.617 8.97 18.193 9.539 17.957C9.631 17.319 9.889 16.879 10.175 16.633C7.955 16.393 5.62 15.531 5.62 11.719C5.62 10.617 6.009 9.693 6.649 8.963C6.546 8.711 6.203 7.727 6.747 6.317C6.747 6.317 7.587 6.049 9.496 7.303C10.295 7.077 11.15 6.964 12 6.96C12.85 6.964 13.705 7.077 14.504 7.303C16.413 6.049 17.253 6.317 17.253 6.317C17.797 7.727 17.454 8.711 17.351 8.963C17.991 9.693 18.38 10.617 18.38 11.719C18.38 15.543 16.041 16.389 13.813 16.621C14.172 16.917 14.491 17.496 14.491 18.398C14.491 19.692 14.479 20.723 14.479 20.978C14.479 21.261 14.659 21.581 15.167 21.488C19.135 20.163 22 16.418 22 12C22 6.477 17.523 2 12 2Z" fill="currentColor"/>
+  </svg>
+);
+
+// FacebookIcon.jsx
+export const FacebookIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M24 12.073C24 5.405 18.627 0 12 0C5.373 0 0 5.405 0 12.073C0 18.099 4.388 23.094 10.125 24V15.563H7.078V12.073H10.125V9.413C10.125 6.387 11.917 4.716 14.658 4.716C15.97 4.716 17.344 4.951 17.344 4.951V7.921H15.83C14.34 7.921 13.875 8.853 13.875 9.808V12.073H17.203L16.671 15.563H13.875V24C19.612 23.094 24 18.099 24 12.073Z" fill="currentColor"/>
+  </svg>
+);
+
+// TwoFAIcon.jsx
+export const TwoFAIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" strokeWidth="2"/>
+    <path d="M7 11V7C7 4.23858 9.23858 2 12 2C14.7614 2 17 4.23858 17 7V11" stroke="currentColor" strokeWidth="2"/>
+    <circle cx="12" cy="16" r="1" fill="currentColor"/>
+    <path d="M12 16V19" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+  </svg>
+);
+
+
+// UserIcon.jsx
+export const UserIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org2000/svg">
+    <path d="M20 21V19C20 16.7909 18.2091 15 16 15H8C5.79086 15 4 16.7909 4 19V21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <circle cx="12" cy="7" r="4" stroke="currentColor" strokeWidth="2"/>
+  </svg>
+);
+
+// PasswordIcon.jsx
+export const PasswordIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" strokeWidth="2"/>
+    <path d="M7 11V7C7 4.23858 9.23858 2 12 2C14.7614 2 17 4.23858 17 7V11" stroke="currentColor" strokeWidth="2"/>
+  </svg>
+);
+
+// RoleIcon.jsx
+export const RoleIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="currentColor" strokeWidth="2"/>
+    <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="currentColor" strokeWidth="2"/>
+    <path d="M15 5L19 3" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+    <path d="M15 9L19 11" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+  </svg>
+);
+
+// RateLimitIcon.jsx
+export const RateLimitIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
+    <path d="M12 6V12L16 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+  </svg>
+);
 export const ClearIcon = ({ className = "w-5 h-5" }) => (
   <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -269,5 +375,17 @@ export default {
   RequiredIcon,
   CheckIcon,
   DragIcon,
-  SettingsIcon
+  SettingsIcon,
+  JWTIcon,
+  OAuthIcon,
+  SessionIcon,
+  APIKeyIcon,
+  GoogleIcon,
+  GitHubIcon,
+  FacebookIcon,
+  TwoFAIcon,
+  UserIcon,
+  PasswordIcon,
+  RoleIcon,
+  RateLimitIcon
 };

@@ -24,8 +24,23 @@ const storedSchemaSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now }
 });
 
-const StoredSchema = mongoose.model('StoredSchema', storedSchemaSchema);
+const apiEndpointSchema = new mongoose.Schema({
+    schemaName: { type: String, required: true },
+    name: { type: String, required: true },
+    method: { type: String, required: true },
+    path: { type: String, required: true },
+    description: { type: String },
+    authRequired: { type: Boolean, default: false },
+    role: { type: String, default: 'user' },
+    isCustom: { type: Boolean, default: false },
+    enabled: { type: Boolean, default: true },
+    createdAt: { type: Date, default: Date.now }
+});
 
+const StoredSchema = mongoose.model('StoredSchema', storedSchemaSchema);
+const ApiEndpoint = mongoose.model('ApiEndpoint', apiEndpointSchema);
+
+// Schema routes
 app.post('/api/save-schema', async (req, res) => {
     try {
         const { name, mongooseSchema } = req.body;
@@ -77,6 +92,87 @@ app.delete('/api/schema/:id', async (req, res) => {
             return res.status(404).json({ error: 'Schema not found' });
         }
         res.json({ message: 'Schema deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// API Endpoints routes
+app.post('/api/endpoints', async (req, res) => {
+    try {
+        const { schemaName, endpoints } = req.body;
+        
+        if (!schemaName || !endpoints || !Array.isArray(endpoints)) {
+            return res.status(400).json({ error: 'Schema name and endpoints array are required' });
+        }
+
+        // Delete existing endpoints for this schema
+        await ApiEndpoint.deleteMany({ schemaName });
+
+        // Insert new endpoints
+        const endpointsWithSchema = endpoints.map(endpoint => ({
+            ...endpoint,
+            schemaName
+        }));
+
+        const savedEndpoints = await ApiEndpoint.insertMany(endpointsWithSchema);
+        res.json({ 
+            message: 'Endpoints saved successfully', 
+            count: savedEndpoints.length 
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.get('/api/endpoints/:schemaName', async (req, res) => {
+    try {
+        const { schemaName } = req.params;
+        const endpoints = await ApiEndpoint.find({ schemaName }).sort({ createdAt: -1 });
+        res.json(endpoints);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.put('/api/endpoints/:id', async (req, res) => {
+    try {
+        const { enabled } = req.body;
+        const endpoint = await ApiEndpoint.findByIdAndUpdate(
+            req.params.id, 
+            { enabled }, 
+            { new: true }
+        );
+        
+        if (!endpoint) {
+            return res.status(404).json({ error: 'Endpoint not found' });
+        }
+        res.json(endpoint);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.delete('/api/endpoints/:id', async (req, res) => {
+    try {
+        const endpoint = await ApiEndpoint.findByIdAndDelete(req.params.id);
+        if (!endpoint) {
+            return res.status(404).json({ error: 'Endpoint not found' });
+        }
+        res.json({ message: 'Endpoint deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.delete('/api/endpoints/schema/:schemaName', async (req, res) => {
+    try {
+        const { schemaName } = req.params;
+        const result = await ApiEndpoint.deleteMany({ schemaName });
+        res.json({ 
+            message: `All endpoints for ${schemaName} deleted successfully`,
+            deletedCount: result.deletedCount
+        });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
