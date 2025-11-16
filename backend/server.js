@@ -1,19 +1,20 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-
+require('dotenv').config(); // Add this line at the top
 const app = express();
 
-// CORS setup - this allows frontend to communicate
+// Updated CORS setup
 app.use(cors({
-    origin: ['http://localhost:3000', 'http://localhost:5173', 'https://your-production-domain.com'],
+    origin: process.env.FRONTEND_URL || true,
     credentials: true
 }));
 
 app.use(express.json());
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/schema', {
+// Updated MongoDB connection
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/schema', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
@@ -44,7 +45,7 @@ const ApiEndpoint = mongoose.model('ApiEndpoint', apiEndpointSchema);
 app.post('/api/save-schema', async (req, res) => {
     try {
         const { name, mongooseSchema } = req.body;
-        
+
         if (!name || !mongooseSchema) {
             return res.status(400).json({ error: 'Name and Mongoose schema are required' });
         }
@@ -55,9 +56,9 @@ app.post('/api/save-schema', async (req, res) => {
         });
 
         await schema.save();
-        res.json({ 
-            message: 'Schema saved successfully', 
-            id: schema._id 
+        res.json({
+            message: 'Schema saved successfully',
+            id: schema._id
         });
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -89,7 +90,7 @@ app.get('/api/schema/:id', async (req, res) => {
 app.put('/api/schema/:id', async (req, res) => {
     try {
         const { name, mongooseSchema } = req.body;
-        
+
         if (!name || !mongooseSchema) {
             return res.status(400).json({ error: 'Name and Mongoose schema are required' });
         }
@@ -104,9 +105,9 @@ app.put('/api/schema/:id', async (req, res) => {
             return res.status(404).json({ error: 'Schema not found' });
         }
 
-        res.json({ 
-            message: 'Schema updated successfully', 
-            schema 
+        res.json({
+            message: 'Schema updated successfully',
+            schema
         });
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -129,7 +130,7 @@ app.delete('/api/schema/:id', async (req, res) => {
 app.post('/api/endpoints', async (req, res) => {
     try {
         const { schemaName, endpoints } = req.body;
-        
+
         if (!schemaName || !endpoints || !Array.isArray(endpoints)) {
             return res.status(400).json({ error: 'Schema name and endpoints array are required' });
         }
@@ -144,9 +145,9 @@ app.post('/api/endpoints', async (req, res) => {
         }));
 
         const savedEndpoints = await ApiEndpoint.insertMany(endpointsWithSchema);
-        res.json({ 
-            message: 'Endpoints saved successfully', 
-            count: savedEndpoints.length 
+        res.json({
+            message: 'Endpoints saved successfully',
+            count: savedEndpoints.length
         });
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -166,15 +167,15 @@ app.get('/api/endpoints/:schemaName', async (req, res) => {
 // Full endpoint update route
 app.put('/api/endpoints/:id', async (req, res) => {
     try {
-        const { 
-            name, 
-            method, 
-            path, 
-            description, 
-            authRequired, 
-            role, 
-            isCustom, 
-            enabled 
+        const {
+            name,
+            method,
+            path,
+            description,
+            authRequired,
+            role,
+            isCustom,
+            enabled
         } = req.body;
 
         // Basic validation
@@ -196,14 +197,14 @@ app.put('/api/endpoints/:id', async (req, res) => {
             },
             { new: true, runValidators: true }
         );
-        
+
         if (!endpoint) {
             return res.status(404).json({ error: 'Endpoint not found' });
         }
-        
-        res.json({ 
+
+        res.json({
             message: 'Endpoint updated successfully',
-            endpoint 
+            endpoint
         });
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -214,7 +215,7 @@ app.put('/api/endpoints/:id', async (req, res) => {
 app.patch('/api/endpoints/:id', async (req, res) => {
     try {
         const updates = req.body;
-        
+
         // Remove any fields that shouldn't be updated
         delete updates._id;
         delete updates.schemaName;
@@ -230,14 +231,14 @@ app.patch('/api/endpoints/:id', async (req, res) => {
             updates,
             { new: true, runValidators: true }
         );
-        
+
         if (!endpoint) {
             return res.status(404).json({ error: 'Endpoint not found' });
         }
-        
-        res.json({ 
+
+        res.json({
             message: 'Endpoint updated successfully',
-            endpoint 
+            endpoint
         });
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -245,23 +246,23 @@ app.patch('/api/endpoints/:id', async (req, res) => {
 });
 // Add this route to your server.js file
 app.put('/api/endpoints/:id/toggle', async (req, res) => {
-  try {
-    const endpoint = await ApiEndpoint.findById(req.params.id);
-    
-    if (!endpoint) {
-      return res.status(404).json({ error: 'Endpoint not found' });
+    try {
+        const endpoint = await ApiEndpoint.findById(req.params.id);
+
+        if (!endpoint) {
+            return res.status(404).json({ error: 'Endpoint not found' });
+        }
+
+        endpoint.enabled = !endpoint.enabled;
+        await endpoint.save();
+
+        res.json({
+            message: `Endpoint ${endpoint.enabled ? 'enabled' : 'disabled'} successfully`,
+            endpoint
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
-
-    endpoint.enabled = !endpoint.enabled;
-    await endpoint.save();
-
-    res.json({ 
-      message: `Endpoint ${endpoint.enabled ? 'enabled' : 'disabled'} successfully`,
-      endpoint 
-    });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
 });
 
 app.delete('/api/endpoints/:id', async (req, res) => {
@@ -280,7 +281,7 @@ app.delete('/api/endpoints/schema/:schemaName', async (req, res) => {
     try {
         const { schemaName } = req.params;
         const result = await ApiEndpoint.deleteMany({ schemaName });
-        res.json({ 
+        res.json({
             message: `All endpoints for ${schemaName} deleted successfully`,
             deletedCount: result.deletedCount
         });
@@ -290,6 +291,6 @@ app.delete('/api/endpoints/schema/:schemaName', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0',() => {
     console.log(`Server running on port ${PORT}`);
 });
