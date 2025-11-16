@@ -28,7 +28,7 @@ import {
 } from './Svg';
 
 // API config
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = 'https://apivengers.onrender.com/api';
 
 // API functions
 const saveSchemaToDB = async (name, mongooseSchema) => {
