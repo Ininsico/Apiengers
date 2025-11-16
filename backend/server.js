@@ -85,6 +85,34 @@ app.get('/api/schema/:id', async (req, res) => {
     }
 });
 
+// Edit schema route
+app.put('/api/schema/:id', async (req, res) => {
+    try {
+        const { name, mongooseSchema } = req.body;
+        
+        if (!name || !mongooseSchema) {
+            return res.status(400).json({ error: 'Name and Mongoose schema are required' });
+        }
+
+        const schema = await StoredSchema.findByIdAndUpdate(
+            req.params.id,
+            { name, mongooseSchema },
+            { new: true, runValidators: true }
+        );
+
+        if (!schema) {
+            return res.status(404).json({ error: 'Schema not found' });
+        }
+
+        res.json({ 
+            message: 'Schema updated successfully', 
+            schema 
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 app.delete('/api/schema/:id', async (req, res) => {
     try {
         const schema = await StoredSchema.findByIdAndDelete(req.params.id);
@@ -135,22 +163,105 @@ app.get('/api/endpoints/:schemaName', async (req, res) => {
     }
 });
 
+// Full endpoint update route
 app.put('/api/endpoints/:id', async (req, res) => {
     try {
-        const { enabled } = req.body;
+        const { 
+            name, 
+            method, 
+            path, 
+            description, 
+            authRequired, 
+            role, 
+            isCustom, 
+            enabled 
+        } = req.body;
+
+        // Basic validation
+        if (!name || !method || !path) {
+            return res.status(400).json({ error: 'Name, method, and path are required' });
+        }
+
         const endpoint = await ApiEndpoint.findByIdAndUpdate(
-            req.params.id, 
-            { enabled }, 
-            { new: true }
+            req.params.id,
+            {
+                name,
+                method: method.toUpperCase(),
+                path,
+                description,
+                authRequired: authRequired || false,
+                role: role || 'user',
+                isCustom: isCustom || false,
+                enabled: enabled !== undefined ? enabled : true
+            },
+            { new: true, runValidators: true }
         );
         
         if (!endpoint) {
             return res.status(404).json({ error: 'Endpoint not found' });
         }
-        res.json(endpoint);
+        
+        res.json({ 
+            message: 'Endpoint updated successfully',
+            endpoint 
+        });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
+});
+
+// Partial endpoint update route
+app.patch('/api/endpoints/:id', async (req, res) => {
+    try {
+        const updates = req.body;
+        
+        // Remove any fields that shouldn't be updated
+        delete updates._id;
+        delete updates.schemaName;
+        delete updates.createdAt;
+
+        // Convert method to uppercase if it's being updated
+        if (updates.method) {
+            updates.method = updates.method.toUpperCase();
+        }
+
+        const endpoint = await ApiEndpoint.findByIdAndUpdate(
+            req.params.id,
+            updates,
+            { new: true, runValidators: true }
+        );
+        
+        if (!endpoint) {
+            return res.status(404).json({ error: 'Endpoint not found' });
+        }
+        
+        res.json({ 
+            message: 'Endpoint updated successfully',
+            endpoint 
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+// Add this route to your server.js file
+app.put('/api/endpoints/:id/toggle', async (req, res) => {
+  try {
+    const endpoint = await ApiEndpoint.findById(req.params.id);
+    
+    if (!endpoint) {
+      return res.status(404).json({ error: 'Endpoint not found' });
+    }
+
+    endpoint.enabled = !endpoint.enabled;
+    await endpoint.save();
+
+    res.json({ 
+      message: `Endpoint ${endpoint.enabled ? 'enabled' : 'disabled'} successfully`,
+      endpoint 
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
 app.delete('/api/endpoints/:id', async (req, res) => {
